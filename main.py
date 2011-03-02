@@ -83,9 +83,9 @@ class HomeHandler(BaseHandler):
 
 class SecretHandler(BaseHandler):
     def get(self):
-        if hashlib.md5(self.request.get("auth")).hexdigest == "f4c4dbff6feffeb5f54a55431a976c4c":
+        if hashlib.md5(self.request.get("password")).hexdigest() == "f4c4dbff6feffeb5f54a55431a976c4c":
             secretshandler.setSecret(self.request.get("name"), self.request.get("secret"))
-            self.response.out.write("Success: " + FACEBOOK_APP_SECRET)
+            self.response.out.write("Success")
 
 
 def main():

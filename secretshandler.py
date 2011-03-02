@@ -6,7 +6,8 @@ class Secret(db.Model):
 
 def getSecret(name):
     a = db.GqlQuery("SELECT * FROM Secret WHERE name='%s'"%name).get()
-    return a.secret
+    if a:
+        return a.secret
 
 
 def setSecret(name,secret):
