@@ -7,7 +7,7 @@ class Secret(db.Model):
 def getSecret(name):
     a = db.GqlQuery("SELECT * FROM Secret WHERE name='%s'"%name).get()
     if a:
-        return a.secret
+        return a.secret.encode("ascii")
 
 
 def setSecret(name,secret):
