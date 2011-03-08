@@ -293,7 +293,10 @@ class BaseHandler(webapp.RequestHandler):
 
         # try to load or create a user object
         if facebook.user_id:
-            user = User.get_by_key_name(facebook.user_id)
+            try:
+                user = User.get_by_key_name(facebook.user_id)
+            except Exception:
+                pass
             if user:
                 # update stored access_token
                 if facebook.access_token and \
@@ -308,7 +311,8 @@ class BaseHandler(webapp.RequestHandler):
                     facebook.access_token = user.access_token
 
             if not user and facebook.access_token:
-                me = facebook.api(u'/me', {u'fields': u'picture,friends'})
+                me = facebook.api(u'/me', {u'fields': u'name,email,picture,friends'})
+                me[u'name'] = facebook.api(u'/me')[u'name']
                 try:
                     friends = [user[u'id'] for user in me[u'friends'][u'data']]
                     user = User(key_name=facebook.user_id,
